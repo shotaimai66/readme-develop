@@ -6,4 +6,4 @@
 - 上記のサンプルを使ってデザインのコーディングをあまりせずに開発を行う。
 
 ### サンプルhtml利用方法
-<iframe width="560" height="315" src="https://www.youtube.com/embed/LGMOokp11yo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![](https://img.youtube.com/vi/LGMOokp11yo/0.jpg)](https://www.youtube.com/watch?v=LGMOokp11yo)
