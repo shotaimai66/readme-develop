@@ -1,6 +1,52 @@
-# heroku✖︎docker
+# rails✖︎docker　herokuへのデプロイ（サンプルアプリをコピーしている場合）
+```
+# herokuへのログイン
+heroku login
 
-# 本番環境にあげる手順
+# heroku.yml​ マニフェスト内で定義されている setup​ セクションからアプリを作成するには、beta​ アップデートチャネルから heroku-manifest​ プラグインをインストールしてください。
+heroku update beta
+heroku plugins:install @heroku-cli/plugin-manifest
+
+# いつでも、stable アップデートストリームに戻して、プラグインを削除できます。
+heroku update stable
+heroku plugins:remove manifest
+
+# 次に、--manifest​ フラグを使用してアプリを作成します。 アプリのスタックは自動的に container​ に設定されます。
+heroku create 好きなアプリ名 --manifest
+
+# herokuリポジトリへのpush(dockerイメージのビルド、デプロイをやってくれる)
+git push heroku master
+
+# mysqlのデータベース接続情報
+heroku config:get JAWSDB_MARIA_URL
+# 表示される各項目の内容＝＞　mysql://username:password@hostname:port/default_schema
+
+# 環境変数の設定
+heroku config:add DB_NAME='e6ytgt4k16jfncbr' --app 好きなアプリ名
+heroku config:add USERNAME='tnfb54akpxfjwi2j' --app 好きなアプリ名
+heroku config:add PASSWORD='komy5u934wy8ch3u' --app 好きなアプリ名
+heroku config:add HOSTNAME='dcrhg4kh56j13bnu.cbetxkdyhwsb.us-east-1.rds.amazonaws.com' --app 好きなアプリ名
+heroku config:add RAILS_MASTER_KEY='85dedc5f3959aa6b91d71f60bb91673c' --app 好きなアプリ名
+heroku config:add RAILS_APP_HOST='好きなアプリ名.herokuapp.com' --app 好きなアプリ名
+
+# rails db:migrate
+heroku run rake db:create db:migrate --app 好きなアプリ名
+
+# rails db:seed(必要なら)
+heroku run rake db:create db:seed --app 好きなアプリ名
+
+# アプリを確認
+heroku open --app 好きなアプリ名
+
+# その後は開発をしてpush
+# herokuリポジトリへのpush(dockerイメージのビルド、デプロイをやってくれる)
+git add -A
+git commit -m"開発"
+git push heroku master
+
+```
+
+# rails✖︎docker　herokuへのデプロイ（その他の場合）
 
 1. エラーに立ち向かう決意をする
 2. ローカルで開発環境を最初から構築してエラーが出ないか確認する
