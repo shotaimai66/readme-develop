@@ -126,7 +126,7 @@ docker-compose run web bash
 
 - コンテナ内にvimがインストールされていないと一番上のコマンドは打ち込めない。なので、Dockerfileにviをインストールするように追記
 
-```docker
+```dockerfile
 FROM ruby:3.0.2
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
@@ -263,14 +263,14 @@ config.public_file_server.enabled = true # publicディレクトリ以下のア�
 
 - ローカル環境でdockerイメージをbuildする際に、assets:precompileを行う必要がある。
 
-```docker
+```dockerfile
 # ここを追加
 RUN SECRET_KEY_BASE=placeholder bundle exec rails assets:precompile \
  && yarn cache clean \
  && rm -rf node_modules tmp/cache
 ```
 
-```docker
+```dockerfile
 FROM ruby:3.0.2
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
@@ -310,8 +310,6 @@ CMD ["rails", "server", "-b", "0.0.0.0"]
 
 ### webpackerのエラーが出る時（rails6とかは出るかも）
 
-![error_webpacker.png](heroku%E2%9C%96%EF%B8%8Edocker%200a3414dba8704a9d956a22b7c0edb587/error_webpacker.png)
-
 - これもrails assets:precompileができていない。だが、してもcssだけコンパイルされない現象が起きることがある。以下の対応を行い再度`heroku container:release`を行う
 
 
@@ -319,7 +317,7 @@ CMD ["rails", "server", "-b", "0.0.0.0"]
 
 - ローカルでproduction環境を指定して起動させれば同じエラーが発生することが多い。
 
-```docker
+```dockerfile
 # 環境変数のRAILS_ENV=productionを指定すればproduction環境で起動できる
 rails s -e production
 
