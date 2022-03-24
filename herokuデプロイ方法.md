@@ -1,5 +1,5 @@
 # rails✖︎docker　herokuへのデプロイ（サンプルアプリをコピーしている場合）
-```
+```ruby
 # herokuへのログイン
 heroku login
 
