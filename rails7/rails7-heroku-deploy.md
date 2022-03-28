@@ -17,9 +17,11 @@ heroku create 好きなアプリ名 --manifest
 
 # herokuリポジトリへのpush(dockerイメージのビルド、デプロイをやってくれる)
 git push heroku main
+# mainブランチ以外のブランチをデプロイする場合
+git push heroku <現在いるブランチ名>:master
 ```
 
-### RAILS_MASTER_KEYの生成
+### RAILS_MASTER_KEYの生成(新規に生成する場合のみ必要な手順です)
 SECRET_KEY_BASEについて
 - 新規に作成する際には、master.keyとcredentials.yml.encを削除して、コンソールで以下のコマンドでコンテナの中に入って、
 ```
@@ -34,7 +36,7 @@ EDITOR="vi" bin/rails credentials:edit
 ```ruby
 
 # 環境変数の設定
-heroku config:add RAILS_MASTER_KEY='85dedc5f3959aa6b91d71f60bb91673c' --app 好きなアプリ名
+heroku config:add RAILS_MASTER_KEY='config/master.keyの値をここに入れる' --app 好きなアプリ名
 heroku config:add RAILS_APP_HOST='好きなアプリ名.herokuapp.com' --app 好きなアプリ名
 
 # rails db:migrate db:seed
@@ -50,5 +52,18 @@ git commit -m"開発"
 git push heroku master
 
 ```
+
+# その他
+
+### heroku create 好きなアプリ名 --manifestについて
+- このコマンドの`--manifest`オプションは手順にもあるように、heroku-manifest​ プラグインをインストールする必要があるので注意が必要。
+- またこのコマンドによって、heroku側でheroku.ymlの設定から自動的にDockerを使ってアプリ設定になるので、`git push heroku main`でDockerfileのビルドが始まり、デプロイされる。
+
+### dbの設定について
+- heroku.ymlの設定で、`heroku create 好きなアプリ名 --manifest`コマンドで自動的に、mysql(jawsdb)が作られる。mysqlが作られると同時に、herokuの環境変数に、JAWSDB_URLという環境変数がセットされる。その環境変数をdatabase.ymlで使用しているので特にDB関連の環境変数の手動でのセットは必要ない。
+
+### 実際の運用時の注意
+- メールの設定やドメインの設定が必要になると思う
+
 
 以上でデプロイができる
