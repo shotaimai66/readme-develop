@@ -4,13 +4,9 @@
 # herokuへのログイン
 heroku login
 
-# heroku.yml​ マニフェスト内で定義されている setup​ セクションからアプリを作成するには、beta​ アップデートチャネルから heroku-manifest​ プラグインをインストールしてください。
+# heroku-cliのプラグインをインストール
 heroku update beta
 heroku plugins:install @heroku-cli/plugin-manifest
-
-# いつでも、stable アップデートストリームに戻して、プラグインを削除できます。
-heroku update stable
-heroku plugins:remove manifest
 
 # 次に、--manifest​ フラグを使用してアプリを作成します。 アプリのスタックは自動的に container​ に設定されます。
 heroku create 好きなアプリ名 --manifest
@@ -58,6 +54,12 @@ git push heroku master
 ### heroku create 好きなアプリ名 --manifestについて
 - このコマンドの`--manifest`オプションは手順にもあるように、heroku-manifest​ プラグインをインストールする必要があるので注意が必要。
 - またこのコマンドによって、heroku側でheroku.ymlの設定から自動的にDockerを使ってアプリ設定になるので、`git push heroku main`でDockerfileのビルドが始まり、デプロイされる。
+- heroku-cli(herokuのコマンドツール)のbeta版を使うことになるので、安定版に戻したい場合は以下を実行すること
+```ruby
+# いつでも、stable アップデートストリームに戻して、プラグインを削除できます。
+heroku update stable
+heroku plugins:remove manifest
+```
 
 ### dbの設定について
 - heroku.ymlの設定で、`heroku create 好きなアプリ名 --manifest`コマンドで自動的に、mysql(jawsdb)が作られる。mysqlが作られると同時に、herokuの環境変数に、JAWSDB_URLという環境変数がセットされる。その環境変数をdatabase.ymlで使用しているので特にDB関連の環境変数の手動でのセットは必要ない。
