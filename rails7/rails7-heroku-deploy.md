@@ -25,9 +25,9 @@ git push heroku <現在いるブランチ名>:master
 SECRET_KEY_BASEについて
 - 新規に作成する際には、master.keyとcredentials.yml.encを削除して、コンソールで以下のコマンドでコンテナの中に入って、
 ```
-docker-compose run web bash
+docker-compose run --rm app bash
 ```
-- 以下のコマンドを打ち込みmaster.keyを作成する
+- 以下のコマンドを打ち込みmaster.keyを作成する（作成した後はコンテナを抜けて次の環境変数の設定を行う）
 ```
 EDITOR="vi" bin/rails credentials:edit
 ```
